@@ -8,7 +8,7 @@ import { createUsers } from './user'
 export const meta: MetaFunction = () => [{ title: 'React virtuoso tutorial' }]
 
 export default function Index() {
-	const [users, setUsers] = useState(createUsers)
+	const [users, setUsers] = useState(() => createUsers(0, 20))
 	const [isLoading, setIsLoading] = useState(false)
 	const virtuosoRef = useRef<VirtuosoHandle>(null)
 
@@ -46,11 +46,15 @@ export default function Index() {
 				itemContent={(_, user) => <UserCard user={user} />}
 				fixedFooterContent={
 					isLoading
-						? () => <div className="bg-grayscale-700">Loading...</div>
+						? () => (
+								<tr>
+									<td className="bg-grayscale-700">Loading...</td>
+								</tr>
+							)
 						: undefined
 				}
 				fixedHeaderContent={() => (
-					<tr className='bg-background'>
+					<tr className="bg-background">
 						<th className="bg-grayscale-700 w-[150px] text-left">Id</th>
 						<th className="bg-grayscale-700 w-[150px] text-left">Name</th>
 					</tr>
